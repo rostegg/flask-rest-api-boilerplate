@@ -3,8 +3,8 @@ from flask import (
     Blueprint
 )
 from app.api.utils import response
+from app.api.cache import cache
 
-JSON_MIME_TYPE = 'application/json'
 
 test_response = [{
     'id': 1,
@@ -13,7 +13,7 @@ test_response = [{
 
 api_v1 = Blueprint(name='api_v1', import_name=__name__, url_prefix="/api/v1.0")
 
-
 @api_v1.route('/test',methods=['GET'])
+@cache.cached(timeout=60)
 def test_result():
     return response(200,test_response)
